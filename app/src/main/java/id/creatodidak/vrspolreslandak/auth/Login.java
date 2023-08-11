@@ -159,6 +159,7 @@ public class Login extends AppCompatActivity {
                         Call<ServerResponse> call = endpoint.savetoken(nrp, wilayah, token);
 
                         call.enqueue(new Callback<ServerResponse>() {
+                            @RequiresApi(api = Build.VERSION_CODES.P)
                             @Override
                             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                                 dialog2.dismiss();
@@ -171,13 +172,10 @@ public class Login extends AppCompatActivity {
                                         editor.putBoolean("login", true);
                                         editor.apply();
 
-                                        Intent intent = null;
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                                            intent = new Intent(Login.this, Setlogin2.class);
-                                        }
-
+                                        Intent intent = new Intent(Login.this, Setlogin2.class);
                                         startActivity(intent);
                                         finish();
+
                                     } else {
                                         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Login.this);
                                         builder.setTitle("Ooopsss!")

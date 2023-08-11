@@ -2,19 +2,25 @@ package id.creatodidak.vrspolreslandak.dashboard.karhutla;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,27 +31,46 @@ import java.util.List;
 
 import id.creatodidak.vrspolreslandak.R;
 import id.creatodidak.vrspolreslandak.adapter.ListKarhutlaAdapter;
+import id.creatodidak.vrspolreslandak.api.Client;
+import id.creatodidak.vrspolreslandak.api.Endpoint;
+import id.creatodidak.vrspolreslandak.api.models.DataKarhutla;
 import id.creatodidak.vrspolreslandak.api.models.FetchDataKarhutla;
+import id.creatodidak.vrspolreslandak.api.models.ResponseChecker;
 import id.creatodidak.vrspolreslandak.database.CreateDB;
 import id.creatodidak.vrspolreslandak.database.HotspotTB;
+import id.creatodidak.vrspolreslandak.helper.AuthHelper;
 import id.creatodidak.vrspolreslandak.helper.DateUtils;
+import id.creatodidak.vrspolreslandak.helper.PinVerifikasiHelper;
+import id.creatodidak.vrspolreslandak.helper.Verifikasi;
+import id.creatodidak.vrspolreslandak.service.FirebaseMsg;
+import id.creatodidak.vrspolreslandak.service.PinInputDialog;
 import id.creatodidak.vrspolreslandak.service.SoundService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-//public class Karhutla extends AppCompatActivity implements OnMapReadyCallback {
 public class Karhutla extends AppCompatActivity {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final int AUTH_REQUEST_CODE = 1 ;
     TextView mkJudul, mkTanggal, mkcf7, mkcf8, mkcf9, nohot;
     SharedPreferences sharedPreferences;
     private Button btn, btnMaps;
+    String wil, sat;
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_karhutla);
+
         sharedPreferences = getSharedPreferences("SESSION_DATA", MODE_PRIVATE);
-        String wil = sharedPreferences.getString("wilayah", null);
-        String sat = sharedPreferences.getString("satker", null);
+        wil = sharedPreferences.getString("wilayah", null);
+        sat = sharedPreferences.getString("satker", null);
+
+        if(FirebaseMsg.BG != null && FirebaseMsg.BG.isPlaying()){
+            FirebaseMsg.BG.stop();
+        }
 
         mkJudul = findViewById(R.id.mkJudul);
         mkTanggal = findViewById(R.id.mkTanggal);
@@ -53,7 +78,6 @@ public class Karhutla extends AppCompatActivity {
         mkcf8 = findViewById(R.id.mkcf8);
         mkcf9 = findViewById(R.id.mkcf9);
         nohot = findViewById(R.id.nohotspot);
-
         mkJudul.setText("DATA HOTSPOT DI WILKUM " + sat);
 
         mkTanggal.setText(DateUtils.getTodayFormatted());
@@ -61,9 +85,83 @@ public class Karhutla extends AppCompatActivity {
         Intent stopSoundIntent = new Intent(this, SoundService.class);
         stopService(stopSoundIntent);
 
-        CreateDB createDB = CreateDB.getInstance(Karhutla.this);
-        SQLiteDatabase db = createDB.getReadableDatabase();
+        btn = findViewById(R.id.btnLaporan);
+        btnMaps = findViewById(R.id.btnMapsGlobal);
+        loadfromserver();
 
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Karhutla.this, LaporanKarhutla.class);
+                startActivity(intent);
+            }
+        });
+
+        btnMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Karhutla.this, MapsGlobal.class);
+                startActivity(intent);
+            }
+        });
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+    private void loadfromserver() {
+        String wilayah = sharedPreferences.getString("wilayah", null);
+
+        Endpoint endpoint = Client.getClient().create(Endpoint.class);
+        Call<ResponseChecker> call = endpoint.cekhotspot(wilayah);
+        call.enqueue(new Callback<ResponseChecker>() {
+            @Override
+            public void onResponse(Call<ResponseChecker> call, Response<ResponseChecker> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().isStatus()) {
+                        CreateDB createDB = CreateDB.getInstance(Karhutla.this);
+
+                        List<DataKarhutla> dataKarhutlaList = response.body().getData();
+                        SQLiteDatabase db = createDB.getWritableDatabase();
+                        int dataLooped = 0;
+                        int totalData = dataKarhutlaList.size();
+
+                        for (DataKarhutla dataKarhutla : dataKarhutlaList) {
+                            HotspotTB.insertHotspotIfNotExist(db,
+                                    dataKarhutla.getData_id(),
+                                    dataKarhutla.getLatitude(),
+                                    dataKarhutla.getLongitude(),
+                                    dataKarhutla.getConfidence(),
+                                    dataKarhutla.getRadius(),
+                                    dataKarhutla.getLocation(),
+                                    dataKarhutla.getWilayah(),
+                                    dataKarhutla.getResponse(),
+                                    dataKarhutla.getStatus(),
+                                    dataKarhutla.getNotif(),
+                                    dataKarhutla.getCreated_at(),
+                                    dataKarhutla.getUpdated_at());
+                            dataLooped++;
+
+                            if (dataLooped == totalData) {
+                                loadfromlocal(db);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseChecker> call, Throwable t) {
+                Toast.makeText(Karhutla.this, "GAGAL MEMANGGIL SERVER!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadfromlocal(SQLiteDatabase db) {
         if (wil.equals("ALL")) {
             List<FetchDataKarhutla> fetchDataKarhutlas = new ArrayList<>();
             Cursor cursor1 = HotspotTB.getCountByConfidencea(db);
@@ -108,7 +206,9 @@ public class Karhutla extends AppCompatActivity {
 
             ListKarhutlaAdapter listKarhutlaAdapter = new ListKarhutlaAdapter(fetchDataKarhutlas);
             recyclerView.setAdapter(listKarhutlaAdapter);
-        } else {
+        }
+        else
+        {
             List<FetchDataKarhutla> fetchDataKarhutlas = new ArrayList<>();
             Cursor cursor1 = HotspotTB.getCountByConfidence(db, wil.toLowerCase());
             if (cursor1 != null) {
@@ -155,34 +255,6 @@ public class Karhutla extends AppCompatActivity {
             ListKarhutlaAdapter listKarhutlaAdapter = new ListKarhutlaAdapter(fetchDataKarhutlas);
             recyclerView.setAdapter(listKarhutlaAdapter);
         }
-
-
-        btn = findViewById(R.id.btnLaporan);
-        btnMaps = findViewById(R.id.btnMapsGlobal);
-
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Karhutla.this, LaporanKarhutla.class);
-                startActivity(intent);
-            }
-        });
-
-        btnMaps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Karhutla.this, MapsGlobal.class);
-                startActivity(intent);
-            }
-        });
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    LOCATION_PERMISSION_REQUEST_CODE);
-        }
     }
 
     @Override
@@ -191,61 +263,71 @@ public class Karhutla extends AppCompatActivity {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             // Periksa apakah izin lokasi diberikan
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Izin diberikan, lakukan operasi yang membutuhkan izin lokasi
                 enableMyLocation();
             } else {
-                // Izin ditolak, Anda bisa memberikan pesan bahwa izin diperlukan untuk
-                // menggunakan fitur peta atau melakukan tindakan lain
+
             }
         }
     }
 
-    // Aktifkan fitur "My Location" pada peta
     private void enableMyLocation() {
-//        if (mMap != null) {
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//                    == PackageManager.PERMISSION_GRANTED) {
-//                mMap.setMyLocationEnabled(true);
-//            }
-//        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        mapView.onResume();
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onPause() {
         super.onPause();
-//        mapView.onPause();
+//        AuthHelper authHelper = new AuthHelper(this);
+//
+//        authHelper.performAuth(new AuthHelper.AuthCallback() {
+//            @Override
+//            public void onAuthSuccess() {
+//                selubung.setVisibility(View.GONE);
+//                loadfromserver();
+//            }
+//
+//            @Override
+//            public void onAuthFailed() {
+//                // Otentikasi gagal, lakukan tindakan yang sesuai.
+//            }
+//        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mapView.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-//        mapView.onLowMemory();
     }
-
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
-//
-//        // Menampilkan peta Kalimantan Barat
-//        LatLng kalimantanBarat = new LatLng(-0.278780, 111.475494);
-//        mMap.addMarker(new MarkerOptions().position(kalimantanBarat).title("Kalimantan Barat"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kalimantanBarat, 8));
-//    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Check if the result is from the AuthLogin activity
+        if (requestCode == AUTH_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // Authentication successful, continue loading Karhutla activity
+                setContentView(R.layout.activity_karhutla);
+            } else {
+                // Authentication failed, close the app or show an error message
+                finish();
+            }
+        }
     }
 }

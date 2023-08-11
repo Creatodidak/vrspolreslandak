@@ -65,6 +65,11 @@ public class Login2 extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 authenticationCallback = new BiometricPrompt.AuthenticationCallback() {
                     @Override
+                    public void onAuthenticationError(int errorCode, CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                        pin.setVisibility(View.VISIBLE);
+                    }
+                    @Override
                     public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
                         Intent intent = new Intent(Login2.this, Dashboard.class);
                         startActivity(intent);
@@ -75,6 +80,8 @@ public class Login2 extends AppCompatActivity {
                     public void onAuthenticationFailed() {
                         // Handle fingerprint authentication failure
                         Toast.makeText(Login2.this, "Verifikasi sidik jari gagal. Coba lagi.", Toast.LENGTH_SHORT).show();
+                        pin.setVisibility(View.VISIBLE);
+
                     }
                 };
             }

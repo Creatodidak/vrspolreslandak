@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -119,14 +120,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
                             if (dataLooped == totalData) {
                                 dialog.dismiss();
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P &&
-                                        !Settings.canDrawOverlays(Dashboard.this)) {
-                                    // Permission not granted, show the permission dialog
-                                    showPermissionDialog();
-                                } else {
-                                    onPermissionGranted();
-                                }
                             }
                         }
                     } else {
@@ -152,21 +145,14 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             proceedAfterCameraPermission();
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("NotifikasiKarhutlaVRS")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Subscribed";
-                        if (!task.isSuccessful()) {
-                            msg = "Subscribe failed";
-                        }
-                        Log.d("NOTIF", msg);
-                    }
-                });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P &&
+                !Settings.canDrawOverlays(Dashboard.this)) {
+            showPermissionDialog();
+        } else {
+            onPermissionGranted();
+        }
 
-        if(areNotificationsEnabled()){
-            Toast.makeText(this, "DIIZINKAN", Toast.LENGTH_SHORT).show();
-        }else{
+        if(!areNotificationsEnabled()){
             showNotificationPermissionDialog();
         }
     }
@@ -176,9 +162,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 .setTitle("Izin Notifikasi Diperlukan")
                 .setMessage("Untuk menggunakan fitur ini, Anda perlu mengaktifkan izin notifikasi. Tekan OK untuk membuka pengaturan notifikasi.")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Buka pengaturan kebijakan notifikasi
                         Intent intent = new Intent(Settings.ACTION_ALL_APPS_NOTIFICATION_SETTINGS);
                         startActivity(intent);
                     }
@@ -186,7 +172,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // User membatalkan, lakukan tindakan yang sesuai
                     }
                 })
                 .create();
@@ -270,14 +255,12 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     }
 
     private void showPermissionDialog() {
-        // Show the permission dialog using the activity context
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("IZIN DIPERLUKAN")
                 .setMessage("Agar anda dapat mendapatkan data terbaru dari server secara realtime, silahkan berikan izin dengan menekan tombol dibawah")
                 .setPositiveButton("BERI IZIN", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Navigate to the permission settings page
                         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                         intent.setData(Uri.parse("package:" + getPackageName()));
                         startActivity(intent);
@@ -286,7 +269,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 .setNegativeButton("BATALKAN", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // The user cancelled the permission dialog, handle it as needed
                         onPermissionDenied();
                     }
                 })
@@ -307,8 +289,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     }
 
     public void onPermissionDenied() {
-        // User denied the FOREGROUND_SERVICE permission
-        // Handle the denial (e.g., show a message to the user)
         Toast.makeText(this, "Foreground service permission denied. The app may not function properly.", Toast.LENGTH_LONG).show();
         finish();
     }
@@ -318,10 +298,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, continue with your logic.
                 proceedAfterCameraPermission();
             } else {
-                // Permission denied. You may handle this case accordingly, e.g., show a message or finish the activity.
                 Toast.makeText(this, "Camera permission denied. The app may not function properly.", Toast.LENGTH_LONG).show();
                 finish();
             }
@@ -329,11 +307,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     }
 
 
-    // Method to proceed after the camera permission has been granted.
     private void proceedAfterCameraPermission() {
-        // Do whatever you want to do after obtaining the camera permission.
-        // For example, you can start your camera-related functionality here.
-        // In this case, you can call onPermissionGranted() as you did before.
         onPermissionGranted();
     }
 }
