@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.NOTIFICATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:exported="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/icon"
+        android:label="VRS POLRES LANDAK"
+        android:roundIcon="@mipmap/icon_round"
+        android:supportsRtl="true"
+        android:theme="@style/Base.Theme.MyApplication"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".service.FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/Base.Theme.MyApplication.Fullscreen" />
+        <activity
+            android:name=".dashboard.pedulistunting.TambahDataIbuMenyusui"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pedulistunting.TambahDataIbuHamil"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pedulistunting.TambahLaporanKegiatan"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pedulistunting.TambahDataPerkembanganIbuMenyusui"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pedulistunting.TambahDataPerkembanganIbuHamil"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pedulistunting.TambahDataPerkembanganAnak"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pedulistunting.TambahDataAnak"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pedulistunting.DashboardPeduliStunting"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.karhutla.MapsGlobal"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBbhErQDKRIVAy6te7yCzN8wGWrAe8AnT8" />
+
+        <activity
+            android:name=".dashboard.karhutla.LaporanKarhutla"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.karhutla.PeringatanKarhutla"
+            android:exported="false"
+            android:lockTaskMode="if_whitelisted" />
+        <activity
+            android:name=".dashboard.Profile"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.tahanan.Tahanan"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.situasi.Situasi"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pimpinan.Pimpinan"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pengamanan.Pengamanan"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.lantas.Lantas"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.karhutla.Karhutla"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.humas.Humas"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.harkamtibmas.Harkamtibmas"
+            android:exported="false" />
+        <activity
+            android:name=".auth.Forgot"
+            android:exported="false" />
+        <activity
+            android:name=".auth.Setlogin2"
+            android:exported="false" />
+        <activity
+            android:name=".auth.Login2"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.Dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".auth.Login"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
+
+        <service
+            android:name=".service.FirebaseMsg"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".service.SoundService" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="id.creatodidak.vrspolreslandak.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/providers_paths" />
+        </provider>
+    </application>
+
+</manifest>

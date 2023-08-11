@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "678535847843",
+    "project_id": "vrs-polri",
+    "storage_bucket": "vrs-polri.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678535847843:android:3d52ca95913f1f6315c416",
+        "android_client_info": {
+          "package_name": "id.creatodidak.vrspolreslandak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678535847843-2o9vh3v4p80ta0bs0qf6rqsego4hsi48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUdEhOI_XUYyvGwIHbbb0HCkK2sJUpm3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678535847843-2o9vh3v4p80ta0bs0qf6rqsego4hsi48.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

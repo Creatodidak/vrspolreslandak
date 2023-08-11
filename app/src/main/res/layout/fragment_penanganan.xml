@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dashboard.karhutla.fragment.Penanganan">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPenangananKarhutla"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="15dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:src="@drawable/baseline_close_24" />
+
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/bold"
+                            android:text="HASIL CEK TKP"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <TextView
+                            android:id="@+id/tvKoordinatKampanye"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="Lokasi" />
+
+                        <Button
+                            android:id="@+id/btRefKoordinat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="REFRESH LOKASI"
+                            android:textColor="@color/black"
+                            app:backgroundTint="#FFC107"
+                            app:cornerRadius="5dp"
+                            app:icon="@drawable/baseline_location_searching_24"
+                            app:iconSize="25dp"
+                            app:iconTint="@color/black" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/fotoPenanganan"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp">
+
+                            <ImageView
+                                android:id="@+id/fotonya"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ka"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/wm1"
+                                android:layout_width="60dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:alpha="0.5"
+                                android:src="@drawable/brand"
+                                android:visibility="gone"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/wm2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/sbold"
+                                android:text="00000000"
+                                android:textColor="#94FFFFFF"
+                                android:textSize="24sp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/wmbox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:visibility="gone"
+                                app:cardBackgroundColor="#85000000"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="5dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/wm3"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/bold"
+                                        android:textColor="@color/white"
+                                        android:textSize="8sp" />
+
+                                    <TextView
+                                        android:id="@+id/wm4"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/white"
+                                        android:textSize="8sp" />
+
+                                    <TextView
+                                        android:id="@+id/wm5"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/white"
+                                        android:textSize="8sp" />
+
+                                    <TextView
+                                        android:id="@+id/wm6"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="©VRS POLRES LANDAK"
+                                        android:textColor="@color/white"
+                                        android:textSize="8sp" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:text="AMBIL FOTO"
+                            android:textColor="@color/white"
+                            app:backgroundTint="#403E3E"
+                            app:cornerRadius="0dp"
+                            app:icon="@drawable/baseline_camera_alt_24"
+                            app:iconGravity="textTop"
+                            app:iconSize="30dp"
+                            app:iconTint="@color/white" />
+
+                        <EditText
+                            android:id="@+id/etTargetKampanye"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:ems="10"
+                            android:hint="Nama Pemilik Lahan"
+                            android:inputType="text"
+                            android:padding="5dp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:ems="10"
+                            android:hint="Luas Lahan (Hektar)"
+                            android:inputType="number|numberDecimal"
+                            android:padding="5dp" />
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/spborder" />
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/spborder" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:ems="10"
+                            android:gravity="start|top"
+                            android:hint="Rincian"
+                            android:inputType="textMultiLine"
+                            android:lines="10"
+                            android:padding="5dp" />
+
+                        <Button
+                            android:id="@+id/btnKirimKampanye"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="KIRIM LAPORAN"
+                            android:textColor="@color/white"
+                            app:backgroundTint="@color/icon_background"
+                            app:cornerRadius="5dp"
+                            app:icon="@drawable/baseline_send_24"
+                            app:iconGravity="textStart"
+                            app:iconSize="25dp"
+                            app:iconTint="@color/white" />
+
+                    </LinearLayout>
+                </ScrollView>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
