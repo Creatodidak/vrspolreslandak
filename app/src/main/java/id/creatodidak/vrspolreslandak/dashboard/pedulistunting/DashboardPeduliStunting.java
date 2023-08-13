@@ -38,7 +38,7 @@ import retrofit2.Response;
 
 public class DashboardPeduliStunting extends AppCompatActivity implements View.OnClickListener {
     ImageView burger;
-    LinearLayout llmenu, menu1, menu2, menu3, menu4, menu5, menu6, menu7, menu8, menu9, menu10, loadingData;
+    LinearLayout llmenu, menu1, menu2, menu3, menu4, menu5, menu6, menu7, menu8, menu9, menu10, loadingData, menu11;
     TextView jG1, tG1, jG2, tG2, jG3, tG3, jG4, tG4, jG5, tG5, jG6, tG6, waktudata, tvLoadData, tt1, tt2, tt3, tt4, tt5, tt6, jibuhamil, tibuhamil, totibuhamil, giatJanak, giatJibuhamil, jibumenyusui, tibumenyusui, totibumenyusui, giatJibumenyusui, jbingkisan, jgiat;
     ProgressBar pbLoadData;
     View viewToAnimate;
@@ -63,6 +63,7 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
         menu8 = findViewById(R.id.menu8);
         menu9 = findViewById(R.id.menu9);
         menu10 = findViewById(R.id.menu10);
+        menu11 = findViewById(R.id.menu11);
         jG1 = findViewById(R.id.jGburuk);
         tG1 = findViewById(R.id.tGburuk);
         jG2 = findViewById(R.id.jGkurang);
@@ -115,6 +116,7 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
         menu8.setOnClickListener(this);
         menu9.setOnClickListener(this);
         menu10.setOnClickListener(this);
+        menu11.setOnClickListener(this);
 
 
         loadRingkasan();
@@ -332,6 +334,10 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
             viewToAnimate.setVisibility(View.GONE);
         } else if (v.getId() == R.id.menu10) {
             Intent intent = new Intent(DashboardPeduliStunting.this, AddMakanan.class);
+            startActivity(intent);
+            viewToAnimate.setVisibility(View.GONE);
+        } else if (v.getId() == R.id.menu11) {
+            Intent intent = new Intent(DashboardPeduliStunting.this, Dokstunting.class);
             startActivity(intent);
             viewToAnimate.setVisibility(View.GONE);
         }

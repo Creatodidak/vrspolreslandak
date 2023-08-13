@@ -4,6 +4,7 @@ import java.util.List;
 
 import id.creatodidak.vrspolreslandak.api.models.stunting.AmbilToken;
 import id.creatodidak.vrspolreslandak.api.models.stunting.DataKms;
+import id.creatodidak.vrspolreslandak.api.models.stunting.Dokumentasi;
 import id.creatodidak.vrspolreslandak.api.models.stunting.HapusItem;
 import id.creatodidak.vrspolreslandak.api.models.stunting.ListDes;
 import id.creatodidak.vrspolreslandak.api.models.stunting.ListDus;
@@ -14,13 +15,16 @@ import id.creatodidak.vrspolreslandak.api.models.stunting.ModelItem;
 import id.creatodidak.vrspolreslandak.api.models.stunting.Respstunting;
 import id.creatodidak.vrspolreslandak.api.models.stunting.RingkasanStunting;
 import id.creatodidak.vrspolreslandak.api.models.stunting.SearchByNIK;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface EndpointStunting {
@@ -217,5 +221,25 @@ public interface EndpointStunting {
     @POST("report/stunting/token/list")
     Call<AmbilToken> getToken(
             @Field("nama") String nama
+    );
+
+    @Multipart
+    @POST("report/adddokumentasi")
+    Call<HapusItem> uploadDokumentasi(
+            @Part("satker") String satker,
+            @Part("jenis") String jenis,
+            @Part MultipartBody.Part image);
+
+    @FormUrlEncoded
+    @POST("report/getdokumentasi")
+    Call<Dokumentasi> getDokumentasi(
+            @Field("token") String token,
+            @Field("satker") String satker
+    );
+
+    @FormUrlEncoded
+    @POST("report/getdokumentasi")
+    Call<Dokumentasi> getAllDokumentasi(
+            @Field("token") String token
     );
 }

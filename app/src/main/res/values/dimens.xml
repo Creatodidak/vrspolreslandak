@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="logo_width">100dp</dimen>
+    <dimen name="watermark_text_size">40sp</dimen>
+    <dimen name="watermark_margin_bottom">10dp</dimen>
+</resources>

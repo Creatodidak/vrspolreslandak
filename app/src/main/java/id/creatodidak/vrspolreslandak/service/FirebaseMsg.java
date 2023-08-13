@@ -183,6 +183,52 @@ public class FirebaseMsg extends FirebaseMessagingService {
                     return;
                 }
                 notificationManagerCompat.notify(notificationId, builder.build());
+            }else{
+                int notificationId = 90;
+                String channelId = "updateVRSPolresLandak";
+                CharSequence channelName = "updateVRSPolresLandak";
+                int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+
+                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=id.creatodidak.vrspolreslandak"));
+                intent.setPackage("com.android.vending");
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+                Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // Create a rhythmic pattern with on-off intervals
+                    long[] pattern = {0, 200, 100, 200, 100, 200}; // Vibrate for 200ms, pause for 100ms, vibrate for 200ms, and so on
+
+                    // Vibrate with the specified pattern
+                    VibrationEffect vibrationEffect = VibrationEffect.createWaveform(pattern, -1); // -1 means don't repeat
+                    vibrator.vibrate(vibrationEffect);
+                } else {
+                    // For devices below Android O, vibrate for 2 seconds
+                    vibrator.vibrate(1000);
+                }
+
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(R.mipmap.icon)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icps))
+                        .setBadgeIconType(R.mipmap.icon)
+                        .setContentTitle(remoteMessage.getNotification().getTitle())
+                        .setContentText(remoteMessage.getNotification().getBody())
+                        .setContentIntent(pendingIntent)
+                        .setDefaults(NotificationCompat.DEFAULT_ALL)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setAutoCancel(true);
+
+
+                NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                notificationManagerCompat.notify(notificationId, builder.build());
             }
         }
     }

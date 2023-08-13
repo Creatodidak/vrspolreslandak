@@ -152,7 +152,6 @@
                 android:layout_marginRight="5dp"
                 android:text="LAPORAN SAYA"
                 android:textColor="@color/white"
-                android:visibility="gone"
                 app:backgroundTint="#082757"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/baseline_token_24"
