@@ -44,6 +44,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".dashboard.pedulistunting.KmsOnline"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pedulistunting.AddBingkisan"
+            android:exported="false" />
+        <activity
+            android:name=".dashboard.pedulistunting.AddMakanan"
+            android:exported="false" />
+        <activity
+            android:name=".admin.NotifikasiUpdate"
+            android:exported="false" />
+        <activity
             android:name=".auth.Blokir"
             android:exported="false" />
         <activity

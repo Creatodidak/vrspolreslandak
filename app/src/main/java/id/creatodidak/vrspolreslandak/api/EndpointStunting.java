@@ -2,23 +2,30 @@ package id.creatodidak.vrspolreslandak.api;
 
 import java.util.List;
 
+import id.creatodidak.vrspolreslandak.api.models.stunting.AmbilToken;
+import id.creatodidak.vrspolreslandak.api.models.stunting.DataKms;
+import id.creatodidak.vrspolreslandak.api.models.stunting.HapusItem;
 import id.creatodidak.vrspolreslandak.api.models.stunting.ListDes;
 import id.creatodidak.vrspolreslandak.api.models.stunting.ListDus;
 import id.creatodidak.vrspolreslandak.api.models.stunting.ListKab;
 import id.creatodidak.vrspolreslandak.api.models.stunting.ListKec;
 import id.creatodidak.vrspolreslandak.api.models.stunting.ListProv;
+import id.creatodidak.vrspolreslandak.api.models.stunting.ModelItem;
 import id.creatodidak.vrspolreslandak.api.models.stunting.Respstunting;
 import id.creatodidak.vrspolreslandak.api.models.stunting.RingkasanStunting;
-import id.creatodidak.vrspolreslandak.api.models.stunting.SearchAnak;
+import id.creatodidak.vrspolreslandak.api.models.stunting.SearchByNIK;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface EndpointStunting {
 
-    @GET("anak/ringkasan")
+    @GET("stunting/ringkasan")
     Call<RingkasanStunting> ringkasanStunting();
 
     @GET("basic/prov")
@@ -65,12 +72,19 @@ public interface EndpointStunting {
             @Field("provinsi") String dprovinsi,
             @Field("bb") String dbb,
             @Field("tb") String dtb,
-            @Field("lk") String dlk
-    );
+            @Field("lk") String dlk,
+            @Field("satker") String satker,
+            @Field("nikibu") String dnikibu);
 
     @FormUrlEncoded
     @POST("anak/search")
-    Call<SearchAnak> searchAnak(
+    Call<SearchByNIK> searchAnak(
+            @Field("nik") String nik
+    );
+
+    @FormUrlEncoded
+    @POST("ibu/search")
+    Call<SearchByNIK> searchIbu(
             @Field("nik") String nik
     );
 
@@ -80,6 +94,128 @@ public interface EndpointStunting {
             @Field("nik") String nik,
             @Field("bb") String bb,
             @Field("tb") String tb,
-            @Field("lk") String lk
+            @Field("lk") String lk,
+            @Field("satker") String satker
+    );
+
+    @FormUrlEncoded
+    @POST("ibu/register")
+    Call<Respstunting> sendRegistrasiDataIbu(
+            @Field("nama") String nama,
+            @Field("nik") String nik,
+            @Field("tanggallahir") String tanggallahir,
+            @Field("pekerjaan") String pekerjaan,
+            @Field("rt") String rt,
+            @Field("rw") String rw,
+            @Field("bb") String bb,
+            @Field("lp") String lp,
+            @Field("usia") String usia,
+            @Field("denyut") String denyut,
+            @Field("sistolik") String sistolik,
+            @Field("diastolik") String diastolik,
+            @Field("prov") String prov,
+            @Field("kab") String kab,
+            @Field("kec") String kec,
+            @Field("des") String des,
+            @Field("dus") String dus,
+            @Field("valcb1") String valcb1,
+            @Field("valcb2") String valcb2,
+            @Field("valcb3") String valcb3,
+            @Field("valcb4") String valcb4,
+            @Field("satker") String satker
+    );
+
+    @FormUrlEncoded
+    @POST("ibu/tambahdatakembangibu")
+    Call<Respstunting> sendDataKembangIbu(
+            @Field("nik") String nik,
+            @Field("bb") String bb,
+            @Field("lp") String lp,
+            @Field("usia") String usia,
+            @Field("denyut") String denyut,
+            @Field("sistolik") String sistolik,
+            @Field("diastolik") String diastolik,
+            @Field("valcb1") String valcb1,
+            @Field("valcb2") String valcb2,
+            @Field("valcb3") String valcb3,
+            @Field("valcb4") String valcb4,
+            @Field("satker") String satker
+    );
+
+    @FormUrlEncoded
+    @POST("ibumenyusui/register")
+    Call<Respstunting> sendRegistrasiDataibumenyusui(
+            @Field("nama") String nama,
+            @Field("nik") String nik,
+            @Field("tanggallahir") String tanggallahir,
+            @Field("pekerjaan") String pekerjaan,
+            @Field("rt") String rt,
+            @Field("rw") String rw,
+            @Field("bb") String bb,
+            @Field("asi") String asi,
+            @Field("sistolik") String sistolik,
+            @Field("diastolik") String diastolik,
+            @Field("prov") String prov,
+            @Field("kab") String kab,
+            @Field("kec") String kec,
+            @Field("des") String des,
+            @Field("dus") String dus,
+            @Field("valcb1") String valcb1,
+            @Field("valcb2") String valcb2,
+            @Field("valcb3") String valcb3,
+            @Field("valcb4") String valcb4,
+            @Field("satker") String satker
+    );
+
+    @FormUrlEncoded
+    @POST("ibumenyusui/tambahdatakembangibumenyusui")
+    Call<Respstunting> sendDataKembangibumenyusui(
+            @Field("nik") String nik,
+            @Field("bb") String bb,
+            @Field("asi") String asi,
+            @Field("sistolik") String sistolik,
+            @Field("diastolik") String diastolik,
+            @Field("valcb1") String valcb1,
+            @Field("valcb2") String valcb2,
+            @Field("valcb3") String valcb3,
+            @Field("valcb4") String valcb4,
+            @Field("satker") String satker
+    );
+
+    @FormUrlEncoded
+    @POST("item/adddata")
+    Call<HapusItem> sendItem(
+            @Field("data") String data,
+            @Field("satker") String satker,
+            @Field("type") String type);
+
+    @FormUrlEncoded
+    @POST("item/getdata")
+    Call<ModelItem> getItem(
+            @Field("satker") String satker,
+            @Field("type") String type);
+
+    @FormUrlEncoded
+    @POST("item/deldata")
+    Call<HapusItem> delItem(
+            @Field("satker") String satker,
+            @Field("type") String type,
+            @Field("id") int id);
+
+    @FormUrlEncoded
+    @POST("kms/getdata")
+    Call<DataKms> getKms(
+            @Field("nik") String nik
+    );
+
+    @GET("report/wa/{token}")
+    Call<ResponseBody> getLaporanWa(
+            @Path("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("report/stunting/token/list")
+    Call<AmbilToken> getToken(
+            @Field("nama") String nama
     );
 }

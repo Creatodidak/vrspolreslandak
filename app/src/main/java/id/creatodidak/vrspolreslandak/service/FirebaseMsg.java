@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 import android.widget.Toast;
@@ -150,16 +152,31 @@ public class FirebaseMsg extends FirebaseMessagingService {
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
                 Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-                vibrator.vibrate(2000);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // Create a rhythmic pattern with on-off intervals
+                    long[] pattern = {0, 200, 100, 200, 100, 200}; // Vibrate for 200ms, pause for 100ms, vibrate for 200ms, and so on
+
+                    // Vibrate with the specified pattern
+                    VibrationEffect vibrationEffect = VibrationEffect.createWaveform(pattern, -1); // -1 means don't repeat
+                    vibrator.vibrate(vibrationEffect);
+                } else {
+                    // For devices below Android O, vibrate for 2 seconds
+                    vibrator.vibrate(1000);
+                }
+
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.icon)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icps))
+                        .setBadgeIconType(R.mipmap.icon)
                         .setContentTitle(remoteMessage.getNotification().getTitle())
                         .setContentText(remoteMessage.getNotification().getBody())
                         .setContentIntent(pendingIntent)
                         .setDefaults(NotificationCompat.DEFAULT_ALL)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setAutoCancel(true);
+
 
                 NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {

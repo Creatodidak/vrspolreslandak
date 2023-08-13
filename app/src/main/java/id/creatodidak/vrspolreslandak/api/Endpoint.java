@@ -1,13 +1,18 @@
 package id.creatodidak.vrspolreslandak.api;
 
+import id.creatodidak.vrspolreslandak.admin.model.ResponseNotif;
 import id.creatodidak.vrspolreslandak.api.models.LoginResponse;
 import id.creatodidak.vrspolreslandak.api.models.ResponseChecker;
 import id.creatodidak.vrspolreslandak.api.models.ServerResponse;
+import id.creatodidak.vrspolreslandak.api.models.stunting.AmbilToken;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface Endpoint {
 
@@ -33,4 +38,12 @@ public interface Endpoint {
             @Field("nrp") String nrp,
             @Field("wilayah") String wilayah,
             @Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("msg/notif")
+    Call<ResponseNotif> kirimUpdateNotif(
+            @Field("judul") String title,
+            @Field("isi") String body,
+            @Field("topic") String topic);
+
 }

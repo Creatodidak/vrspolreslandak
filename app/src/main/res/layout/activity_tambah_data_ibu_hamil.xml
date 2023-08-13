@@ -6,4 +6,340 @@
     android:layout_height="match_parent"
     tools:context=".dashboard.pedulistunting.TambahDataIbuHamil">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="#082757"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/brand" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/bold"
+            android:text="TAMBAH DATA IBU HAMIL"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/formRegIbu"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/heading">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Data Ibu Sesuai Kitas" />
+
+            <EditText
+                android:id="@+id/etRegIbunama"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="NAMA LENGKAP"
+                android:inputType="text"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/etRegIbuNik"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="NIK"
+                android:inputType="number|numberSigned"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/etRegIbuTanggalLahir"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:editable="false"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="TANGGAL LAHIR"
+                android:inputType="none"
+                android:padding="5dp" />
+
+
+            <EditText
+                android:id="@+id/etRegIbuPekerjaan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="PEKERJAAN"
+                android:inputType="text"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Data Domisili" />
+
+            <Spinner
+                android:id="@+id/spRegIbuProv"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spborder" />
+
+            <Spinner
+                android:id="@+id/spRegIbuKab"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spborder" />
+
+            <Spinner
+                android:id="@+id/spRegIbuKec"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spborder" />
+
+            <Spinner
+                android:id="@+id/spRegIbuDes"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spborder" />
+
+            <Spinner
+                android:id="@+id/spRegIbuDus"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spborder" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etRegIbuRt"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="RT"
+                    android:inputType="number"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="    "
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <EditText
+                    android:id="@+id/etRegIbuRw"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="RW"
+                    android:inputType="number"
+                    android:padding="5dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Data Kehamilan" />
+
+            <EditText
+                android:id="@+id/etBBIbu"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="BERAT BADAN (KG)"
+                android:inputType="numberDecimal"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/etLPIbu"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="LINGKAR PERUT (CM)"
+                android:inputType="numberDecimal"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/etUsiaKandungan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="USIA KANDUNGAN (MINGGU)"
+                android:inputType="numberDecimal"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/etDenyutJantungBayi"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="DENYUT JANTUNG BAYI (BPM)"
+                android:inputType="numberDecimal"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Tekanan Darah Ibu" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etSistolik"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="SISTOLIK"
+                    android:inputType="number"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="    "
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <EditText
+                    android:id="@+id/etDiastolik"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="DIASTOLIK"
+                    android:inputType="number"
+                    android:padding="5dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Tindakan Tambahan" />
+
+            <CheckBox
+                android:id="@+id/cbIbu1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edukasi Tentang Kehamilan" />
+
+            <CheckBox
+                android:id="@+id/cbIbu2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pemberian Vitamin Asam Folat" />
+
+            <CheckBox
+                android:id="@+id/cbIbu3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Extra Pudding Asupan Gizi" />
+
+            <CheckBox
+                android:id="@+id/cbIbu4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pemberian Bekal Asupan Gizi Untuk 1 (Satu) Minggu" />
+
+            <Button
+                android:id="@+id/btnRegIbu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
+                android:gravity="center"
+                android:text="TAMBAH DATA IBU HAMIL"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/icon_background"
+                app:icon="@drawable/baseline_send_24"
+                app:iconGravity="textEnd"
+                app:iconTint="@color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/loadingRegIbuData"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#DA000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/heading">
+
+        <ProgressBar
+            android:id="@+id/pbLoadRegIbuData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="#FED100" />
+
+        <TextView
+            android:id="@+id/tvLoadRegIbuData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mengirim data ke server..."
+            android:textColor="#FED100" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,24 +19,31 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 import id.creatodidak.vrspolreslandak.R;
 import id.creatodidak.vrspolreslandak.api.ClientStunting;
 import id.creatodidak.vrspolreslandak.api.EndpointStunting;
+import id.creatodidak.vrspolreslandak.api.models.stunting.DataPosyanduAdapter;
 import id.creatodidak.vrspolreslandak.api.models.stunting.RingkasanStunting;
 import id.creatodidak.vrspolreslandak.helper.CustomNestedScrollView;
 import id.creatodidak.vrspolreslandak.helper.DateUtils;
+import id.creatodidak.vrspolreslandak.helper.NonScrollableLayoutManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DashboardPeduliStunting extends AppCompatActivity implements View.OnClickListener {
     ImageView burger;
-    LinearLayout llmenu, menu1, menu2, menu3, menu4, menu5, menu6, menu7, loadingData;
-    TextView jG1, tG1, jG2, tG2, jG3, tG3, jG4, tG4, jG5, tG5, jG6, tG6, waktudata, tvLoadData, tt1, tt2, tt3, tt4, tt5, tt6;
+    LinearLayout llmenu, menu1, menu2, menu3, menu4, menu5, menu6, menu7, menu8, menu9, menu10, loadingData;
+    TextView jG1, tG1, jG2, tG2, jG3, tG3, jG4, tG4, jG5, tG5, jG6, tG6, waktudata, tvLoadData, tt1, tt2, tt3, tt4, tt5, tt6, jibuhamil, tibuhamil, totibuhamil, giatJanak, giatJibuhamil, jibumenyusui, tibumenyusui, totibumenyusui, giatJibumenyusui, jbingkisan, jgiat;
     ProgressBar pbLoadData;
     View viewToAnimate;
     EndpointStunting endpointStunting;
+    ScrollView sv;
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -53,6 +60,9 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
         menu5 = findViewById(R.id.menu5);
         menu6 = findViewById(R.id.menu6);
         menu7 = findViewById(R.id.menu7);
+        menu8 = findViewById(R.id.menu8);
+        menu9 = findViewById(R.id.menu9);
+        menu10 = findViewById(R.id.menu10);
         jG1 = findViewById(R.id.jGburuk);
         tG1 = findViewById(R.id.tGburuk);
         jG2 = findViewById(R.id.jGkurang);
@@ -71,13 +81,24 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
         tt4 = findViewById(R.id.tt4);
         tt5 = findViewById(R.id.tt5);
         tt6 = findViewById(R.id.tt6);
-
+        jibuhamil = findViewById(R.id.jibuhamil);
+        tibuhamil = findViewById(R.id.trenibuhamil);
+        totibuhamil = findViewById(R.id.ttibuhamil);
+        jibumenyusui = findViewById(R.id.jibumenyusui);
+        tibumenyusui = findViewById(R.id.trenibumenyusui);
+        totibumenyusui = findViewById(R.id.ttibumenyusui);
+        giatJanak = findViewById(R.id.Giatjanak);
+        giatJibuhamil = findViewById(R.id.giatjibuhamil);
+        giatJibumenyusui = findViewById(R.id.giatjibumenyusui);
+        jbingkisan = findViewById(R.id.giatjbingkisan);
         waktudata = findViewById(R.id.waktudata);
         waktudata.setText(DateUtils.getTodayFormatted());
         loadingData = findViewById(R.id.loadingData);
         tvLoadData = findViewById(R.id.tvLoadData);
         pbLoadData = findViewById(R.id.pbLoadData);
-
+        jgiat = findViewById(R.id.jumlahgiat);
+        sv = findViewById(R.id.sVstunting);
+        sv.setVisibility(View.GONE);
 
         viewToAnimate = llmenu;
 
@@ -91,6 +112,10 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
         menu5.setOnClickListener(this);
         menu6.setOnClickListener(this);
         menu7.setOnClickListener(this);
+        menu8.setOnClickListener(this);
+        menu9.setOnClickListener(this);
+        menu10.setOnClickListener(this);
+
 
         loadRingkasan();
     }
@@ -106,6 +131,20 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
             @Override
             public void onResponse(Call<RingkasanStunting> call, Response<RingkasanStunting> response) {
                 loadingData.setVisibility(View.GONE);
+                burger.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (llmenu.getVisibility() == View.GONE) {
+                            viewToAnimate.setVisibility(View.VISIBLE);
+                            Animator slideIn = AnimatorInflater.loadAnimator(DashboardPeduliStunting.this, R.animator.slideinleft);
+                            slideIn.setTarget(viewToAnimate);
+                            slideIn.start();
+                        } else {
+                            viewToAnimate.setVisibility(View.GONE);
+                        }
+                    }
+                });
+                sv.setVisibility(View.VISIBLE);
                 assert response.body() != null;
                 jG1.setText(String.valueOf(response.body().getJumGiziBuruk()));
                 jG2.setText(String.valueOf(response.body().getJumGiziKurang()));
@@ -113,6 +152,28 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
                 jG4.setText(String.valueOf(response.body().getJumGiziLebih()));
                 jG5.setText(String.valueOf(response.body().getJumGiziLebihLebih()));
                 jG6.setText(String.valueOf(response.body().getJumObesitas()));
+                jibuhamil.setText(String.valueOf(response.body().getJumIbuToday()));
+                jibumenyusui.setText(String.valueOf(response.body().getJumibumenyusuiToday()));
+
+                if (response.body().getJumIbuToday() - response.body().getJumIbuYesterday() < 0) {
+                    tibuhamil.setText("🔽 " + String.valueOf(Math.abs(response.body().getJumIbuToday() - response.body().getJumIbuYesterday())).replace("-", ""));
+                    tibuhamil.setTextColor(Color.parseColor("#BC0000"));
+                } else if (response.body().getJumIbuToday() - response.body().getJumIbuYesterday() > 0) {
+                    tibuhamil.setText("🔼 " + String.valueOf((response.body().getJumIbuToday() - response.body().getJumIbuYesterday())));
+                    tibuhamil.setTextColor(Color.parseColor("#7CB342"));
+                } else {
+                    tibuhamil.setText("~");
+                }
+
+                if (response.body().getJumibumenyusuiToday() - response.body().getJumibumenyusuiYesterday() < 0) {
+                    tibumenyusui.setText("🔽 " + String.valueOf(Math.abs(response.body().getJumibumenyusuiToday() - response.body().getJumibumenyusuiYesterday())).replace("-", ""));
+                    tibumenyusui.setTextColor(Color.parseColor("#BC0000"));
+                } else if (response.body().getJumibumenyusuiToday() - response.body().getJumibumenyusuiYesterday() > 0) {
+                    tibumenyusui.setText("🔼 " + String.valueOf((response.body().getJumibumenyusuiToday() - response.body().getJumibumenyusuiYesterday())));
+                    tibumenyusui.setTextColor(Color.parseColor("#7CB342"));
+                } else {
+                    tibumenyusui.setText("~");
+                }
 
                 if (response.body().getJumGiziBuruk() - response.body().getTotalGiziBuruk() < 0) {
                     tG1.setText("🔽 " + String.valueOf(Math.abs(response.body().getJumGiziBuruk() - response.body().getTotalGiziBuruk())).replace("-", ""));
@@ -174,12 +235,43 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
                     tG6.setText("~");
                 }
 
+                if(response.body().getTotAnak() != 0){
+                    giatJanak.setText(" "+String.valueOf(response.body().getTotAnak()) + " Orang");
+                }
+
+                if(response.body().getJumIbuToday() != 0){
+                    giatJibuhamil.setText(" "+String.valueOf(response.body().getJumIbuToday())+ " Orang");
+                }
+
+                if(response.body().getJumibumenyusuiToday() != 0){
+                    giatJibumenyusui.setText(" "+String.valueOf(response.body().getJumibumenyusuiToday())+ " Orang");
+                }
+
+                if(response.body().getTotalBingkisan() != 0){
+                    jbingkisan.setText(" "+String.valueOf(response.body().getTotalBingkisan())+ " Paket");
+                }
+
                 tt1.setText("Total: " + String.valueOf(response.body().getTotalGizi().getGiziBuruk()));
                 tt2.setText("Total: " + String.valueOf(response.body().getTotalGizi().getGiziKurang()));
                 tt3.setText("Total: " + String.valueOf(response.body().getTotalGizi().getGiziBaik()));
                 tt4.setText("Total: " + String.valueOf(response.body().getTotalGizi().getResikoGiziLebih()));
                 tt5.setText("Total: " + String.valueOf(response.body().getTotalGizi().getGiziLebih()));
                 tt6.setText("Total: " + String.valueOf(response.body().getTotalGizi().getObesitas()));
+                totibuhamil.setText("Total: " + String.valueOf(response.body().getTotIbu()));
+                totibumenyusui.setText("Total: " + String.valueOf(response.body().getTotibumenyusui()));
+
+                fetchDataPosyandu(response.body().getDataposyanduList());
+                int jumlahgiats = 0;
+                List<RingkasanStunting.Dataposyandu> dataposyanduList = response.body().getDataposyanduList();
+
+                for(RingkasanStunting.Dataposyandu dataposyandu : dataposyanduList){
+                    if(dataposyandu.isAda()){
+                        jumlahgiats++;
+                    }
+                }
+
+                jgiat.setText(String.valueOf(jumlahgiats)+ " GIAT");
+
             }
 
             @Override
@@ -190,18 +282,19 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
         });
     }
 
+    private void fetchDataPosyandu(List<RingkasanStunting.Dataposyandu> dataposyanduList) {
+        RecyclerView rv = findViewById(R.id.rvposyandupresisi);
+        DataPosyanduAdapter adapter = new DataPosyanduAdapter(dataposyanduList);
+
+//        RecyclerView.LayoutManager lm = new LinearLayoutManager(new NonScrollableLayoutManager(DashboardPeduliStunting.this);
+        rv.setLayoutManager(new NonScrollableLayoutManager(DashboardPeduliStunting.this));
+        rv.setAdapter(adapter);
+
+    }
+
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.burger) {
-            if (llmenu.getVisibility() == View.GONE) {
-                viewToAnimate.setVisibility(View.VISIBLE);
-                Animator slideIn = AnimatorInflater.loadAnimator(this, R.animator.slideinleft);
-                slideIn.setTarget(viewToAnimate);
-                slideIn.start();
-            } else {
-                viewToAnimate.setVisibility(View.GONE);
-            }
-        } else if (v.getId() == R.id.menu1) {
+        if (v.getId() == R.id.menu1) {
             Intent intent = new Intent(DashboardPeduliStunting.this, TambahDataAnak.class);
             startActivity(intent);
             viewToAnimate.setVisibility(View.GONE);
@@ -227,6 +320,18 @@ public class DashboardPeduliStunting extends AppCompatActivity implements View.O
             viewToAnimate.setVisibility(View.GONE);
         } else if (v.getId() == R.id.menu7) {
             Intent intent = new Intent(DashboardPeduliStunting.this, TambahLaporanKegiatan.class);
+            startActivity(intent);
+            viewToAnimate.setVisibility(View.GONE);
+        } else if (v.getId() == R.id.menu8) {
+            Intent intent = new Intent(DashboardPeduliStunting.this, KmsOnline.class);
+            startActivity(intent);
+            viewToAnimate.setVisibility(View.GONE);
+        } else if (v.getId() == R.id.menu9) {
+            Intent intent = new Intent(DashboardPeduliStunting.this, AddBingkisan.class);
+            startActivity(intent);
+            viewToAnimate.setVisibility(View.GONE);
+        } else if (v.getId() == R.id.menu10) {
+            Intent intent = new Intent(DashboardPeduliStunting.this, AddMakanan.class);
             startActivity(intent);
             viewToAnimate.setVisibility(View.GONE);
         }

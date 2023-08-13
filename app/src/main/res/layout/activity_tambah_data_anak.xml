@@ -93,6 +93,16 @@
 
 
             <EditText
+                android:id="@+id/etRegNikIbu"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="NIK IBU"
+                android:inputType="number|numberSigned"
+                android:padding="5dp" />
+
+            <EditText
                 android:id="@+id/etRegNamaIbu"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

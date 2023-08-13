@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -33,6 +34,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.List;
 
 import id.creatodidak.vrspolreslandak.R;
+import id.creatodidak.vrspolreslandak.admin.NotifikasiUpdate;
 import id.creatodidak.vrspolreslandak.api.Client;
 import id.creatodidak.vrspolreslandak.api.Endpoint;
 import id.creatodidak.vrspolreslandak.api.models.DataKarhutla;
@@ -55,15 +57,20 @@ import retrofit2.Response;
 
 public class Dashboard extends AppCompatActivity implements View.OnClickListener {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
-    ImageView ivprofile, iv1, iv2, iv3, iv4, iv5, iv6, iv7, iv8, iv9;
+    ImageView ivprofile, iv1, iv2, iv3, iv4, iv5, iv6, iv7, iv8, iv9, iv11;
     TextView tvnotif, tvmsg, tvatensi;
     Button btReport;
     private androidx.appcompat.app.AlertDialog dialog;
 
+    SharedPreferences sharedPreferences;
+    String nrp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        sharedPreferences = getSharedPreferences("SESSION_DATA", MODE_PRIVATE);
+        nrp = sharedPreferences.getString("nrp", null);
 
         iv1 = findViewById(R.id.iv1);
         iv2 = findViewById(R.id.iv2);
@@ -74,6 +81,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         iv7 = findViewById(R.id.iv7);
         iv8 = findViewById(R.id.iv8);
         iv9 = findViewById(R.id.iv9);
+        iv11 = findViewById(R.id.iv11);
+
+        if(!nrp.equals("98070129")){
+            iv11.setVisibility(View.GONE);
+        }else{
+            iv11.setOnClickListener(this);
+        }
 
         iv1.setOnClickListener(this);
         iv2.setOnClickListener(this);
@@ -215,6 +229,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             startActivity(intent);
         } else if (v.getId() == R.id.iv9) {
             Intent intent = new Intent(Dashboard.this, DashboardPeduliStunting.class);
+            startActivity(intent);
+        } else if (v.getId() == R.id.iv11) {
+            Intent intent = new Intent(Dashboard.this, NotifikasiUpdate.class);
             startActivity(intent);
         }
     }

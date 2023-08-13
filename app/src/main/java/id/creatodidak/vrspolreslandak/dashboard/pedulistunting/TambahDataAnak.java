@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,7 +41,7 @@ import retrofit2.Response;
 
 public class TambahDataAnak extends AppCompatActivity {
 
-    EditText tanggallahir, nik, rt, rw, nama, namaibu, bb, tb, lk;
+    EditText tanggallahir, nik, nikibu, rt, rw, nama, namaibu, bb, tb, lk;
     Spinner spprov, spkab, spkec, spdes, spdus, spjk;
     private List<String> jenkel = Arrays.asList("JENIS KELAMIN", "LAKI - LAKI", "PEREMPUAN");
     List<ListProv> listProvinsi = new ArrayList<>();
@@ -74,6 +75,7 @@ public class TambahDataAnak extends AppCompatActivity {
         spdus = findViewById(R.id.spRegDus);
         spjk = findViewById(R.id.spRegJenis);
         nik  = findViewById(R.id.etRegNik);
+        nikibu  = findViewById(R.id.etRegNikIbu);
         rt = findViewById(R.id.etRegRt);
         rw = findViewById(R.id.etRegRw);
         nama = findViewById(R.id.etRegnama);
@@ -226,6 +228,7 @@ public class TambahDataAnak extends AppCompatActivity {
 
     private void kirimdata() {
         String dnik = nik.getText().toString();
+        String dnikibu = nikibu.getText().toString();
         String dnama = nama.getText().toString();
         String dtanggallahir = tanggallahir.getText().toString();
         String djeniskelamin = getJenisKelaminShortForm(spjk.getSelectedItem().toString());
@@ -240,8 +243,10 @@ public class TambahDataAnak extends AppCompatActivity {
         String dbb = bb.getText().toString();
         String dtb = tb.getText().toString();
         String dlk = lk.getText().toString();
+        SharedPreferences sharedPreferences = getSharedPreferences("SESSION_DATA", MODE_PRIVATE);
+        String satker = sharedPreferences.getString("satker", "POLRES LANDAK");
 
-        Call<Respstunting> call = endpointStunting.sendRegistrasiData(dnik, dnama, dtanggallahir, djeniskelamin, dnamaibu, drt, drw, ddusun, ddesa, dkecamatan, dkabupaten, dprovinsi, dbb, dtb, dlk);
+        Call<Respstunting> call = endpointStunting.sendRegistrasiData(dnik, dnama, dtanggallahir, djeniskelamin, dnamaibu, drt, drw, ddusun, ddesa, dkecamatan, dkabupaten, dprovinsi, dbb, dtb, dlk, satker, dnikibu);
 
         call.enqueue(new Callback<Respstunting>() {
             @Override
@@ -519,6 +524,7 @@ public class TambahDataAnak extends AppCompatActivity {
     private boolean isDataValid() {
         return !TextUtils.isEmpty(tanggallahir.getText()) &&
                 !TextUtils.isEmpty(nik.getText()) &&
+                !TextUtils.isEmpty(nikibu.getText()) &&
                 !TextUtils.isEmpty(rt.getText()) &&
                 !TextUtils.isEmpty(rw.getText()) &&
                 !TextUtils.isEmpty(nama.getText()) &&

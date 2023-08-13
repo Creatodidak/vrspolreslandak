@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,7 +22,7 @@ import id.creatodidak.vrspolreslandak.R;
 import id.creatodidak.vrspolreslandak.api.ClientStunting;
 import id.creatodidak.vrspolreslandak.api.EndpointStunting;
 import id.creatodidak.vrspolreslandak.api.models.stunting.Respstunting;
-import id.creatodidak.vrspolreslandak.api.models.stunting.SearchAnak;
+import id.creatodidak.vrspolreslandak.api.models.stunting.SearchByNIK;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -132,7 +133,9 @@ public class TambahDataPerkembanganAnak extends AppCompatActivity implements Vie
     }
 
     private void kirimdata() {
-        Call<Respstunting> call = endpointStunting.sendKembangAnak(etnik.getText().toString(), etbb.getText().toString(), ettb.getText().toString(), etlk.getText().toString());
+        SharedPreferences sharedPreferences = getSharedPreferences("SESSION_DATA", MODE_PRIVATE);
+        String satker = sharedPreferences.getString("satker", "POLRES LANDAK");
+        Call<Respstunting> call = endpointStunting.sendKembangAnak(etnik.getText().toString(), etbb.getText().toString(), ettb.getText().toString(), etlk.getText().toString(),satker);
         call.enqueue(new Callback<Respstunting>() {
             @Override
             public void onResponse(Call<Respstunting> call, Response<Respstunting> response) {
@@ -204,10 +207,10 @@ public class TambahDataPerkembanganAnak extends AppCompatActivity implements Vie
     }
 
     private void searchbynik(String nik) {
-        Call<SearchAnak> call = endpointStunting.searchAnak(nik);
-        call.enqueue(new Callback<SearchAnak>() {
+        Call<SearchByNIK> call = endpointStunting.searchAnak(nik);
+        call.enqueue(new Callback<SearchByNIK>() {
             @Override
-            public void onResponse(Call<SearchAnak> call, Response<SearchAnak> response) {
+            public void onResponse(Call<SearchByNIK> call, Response<SearchByNIK> response) {
                 if(response.isSuccessful() && response.body() != null){
                     icSearch.setVisibility(View.VISIBLE);
                     pbSearch.setVisibility(View.GONE);
@@ -237,7 +240,7 @@ public class TambahDataPerkembanganAnak extends AppCompatActivity implements Vie
             }
 
             @Override
-            public void onFailure(Call<SearchAnak> call, Throwable t) {
+            public void onFailure(Call<SearchByNIK> call, Throwable t) {
                 icSearch.setVisibility(View.VISIBLE);
                 pbSearch.setVisibility(View.GONE);
                 search.setVisibility(View.VISIBLE);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dashboard.pedulistunting.TambahLaporanKegiatan">
+    tools:context=".dashboard.pedulistunting.AddBingkisan">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/heading"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/bold"
-            android:text="KIRIM LAPORAN KE WHATSAPP"
+            android:text="TAMBAH DATA BINGKISAN"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,42 +38,52 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvItemBingkisan"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/btKirimLaporan"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toTopOf="@id/btnTambahItemBingkisan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/heading" />
+
+    <Button
+        android:id="@+id/btnTambahItemBingkisan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="TAMBAH ITEM"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/icon_background"
+        app:cornerRadius="5dp"
+        app:icon="@drawable/baseline_add_24"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/belumadadata"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btnTambahItemBingkisan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/heading">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_height="match_parent"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvIsiLaporan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BELUM ADA DATA HARI INI" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/btKirimLaporan"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="KIRIM LAPORAN"
-        android:textColor="@color/white"
-        app:backgroundTint="#2E7D32"
-        app:cornerRadius="5dp"
-        app:icon="@drawable/baseline_send_24"
-        app:iconGravity="textEnd"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scrollView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

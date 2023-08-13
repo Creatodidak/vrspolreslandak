@@ -1,6 +1,7 @@
 package id.creatodidak.vrspolreslandak.api.models.stunting;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class RingkasanStunting {
     @SerializedName("jgiziburuk")
@@ -8,6 +9,27 @@ public class RingkasanStunting {
 
     @SerializedName("tgiziburuk")
     private int totalGiziBuruk;
+
+    @SerializedName("jumlahibut")
+    private int jumlahIbuT;
+
+    @SerializedName("jumlahibuy")
+    private int jumlahIbuY;
+
+    @SerializedName("totalibu")
+    private int totalIbu;
+
+    @SerializedName("totalanak")
+    private int totalAnak;
+
+    @SerializedName("jumlahibumenyusuit")
+    private int jumlahibumenyusuiT;
+
+    @SerializedName("jumlahibumenyusuiy")
+    private int jumlahibumenyusuiY;
+
+    @SerializedName("totalibumenyusui")
+    private int totalibumenyusui;
 
     @SerializedName("jgizikurang")
     private int jumGiziKurang;
@@ -42,12 +64,46 @@ public class RingkasanStunting {
     @SerializedName("total")
     private TotalGizi totalGizi;
 
+    @SerializedName("totalbingkisan")
+    private int totalBingkisan;
+
+    @SerializedName("dataposyandu")
+    private List<Dataposyandu> dataposyanduList;
+
     public int getJumGiziBuruk() {
         return jumGiziBuruk;
     }
 
     public int getTotalGiziBuruk() {
         return totalGiziBuruk;
+    }
+
+    public int getJumIbuToday() {
+        return jumlahIbuT;
+    }
+
+    public int getJumIbuYesterday() {
+        return jumlahIbuY;
+    }
+
+    public int getTotIbu() {
+        return totalIbu;
+    }
+
+    public int getTotAnak() {
+        return totalAnak;
+    }
+
+    public int getJumibumenyusuiToday() {
+        return jumlahibumenyusuiT;
+    }
+
+    public int getJumibumenyusuiYesterday() {
+        return jumlahibumenyusuiY;
+    }
+
+    public int getTotibumenyusui() {
+        return totalibumenyusui;
     }
 
     public int getJumGiziKurang() {
@@ -90,8 +146,16 @@ public class RingkasanStunting {
         return totalObesitas;
     }
 
+    public int getTotalBingkisan() {
+        return totalBingkisan;
+    }
+
     public TotalGizi getTotalGizi() {
         return totalGizi;
+    }
+
+    public List<Dataposyandu> getDataposyanduList() {
+        return dataposyanduList;
     }
 
     public class TotalGizi {
@@ -135,6 +199,95 @@ public class RingkasanStunting {
 
         public int getObesitas() {
             return obesitas;
+        }
+    }
+
+    public class Dataposyandu {
+
+        @SerializedName("giat")
+        private  boolean giat;
+        @SerializedName("satker")
+        private String satker;
+
+        @SerializedName("jumanak")
+        private int jumanak;
+
+        @SerializedName("jumibuhamil")
+        private int jumibuhamil;
+
+        @SerializedName("jumibumenyusui")
+        private int jumibumenyusui;
+
+        @SerializedName("jumvitamin")
+        private int jumvitamin;
+
+        @SerializedName("jummakanan")
+        private int jummakanan;
+
+        @SerializedName("jumbingkisan")
+        private int jumbingkisan;
+
+        @SerializedName("daftarmakanan")
+        private List<Daftarmakanan> daftarmakananList;
+
+        @SerializedName("daftarbingkisan")
+        private List<Daftarbingkisan> daftarbingkisanList;
+
+        public boolean isAda(){
+            return giat;
+        }
+        public String getSatker() {
+            return satker;
+        }
+
+        public int getJumanak() {
+            return jumanak;
+        }
+
+        public int getJumibuhamil() {
+            return jumibuhamil;
+        }
+
+        public int getJumibumenyusui() {
+            return jumibumenyusui;
+        }
+
+        public int getJumvitamin() {
+            return jumvitamin;
+        }
+
+        public int getJummakanan() {
+            return jummakanan;
+        }
+
+        public int getJumbingkisan() {
+            return jumbingkisan;
+        }
+
+        public List<Daftarmakanan> getDaftarmakananList() {
+            return daftarmakananList;
+        }
+
+        public List<Daftarbingkisan> getDaftarbingkisanList() {
+            return daftarbingkisanList;
+        }
+    }
+
+    public class Daftarmakanan {
+        @SerializedName("nama")
+        private String nama;
+
+        public String getNama() {
+            return nama;
+        }
+    }
+
+    public class Daftarbingkisan {
+        @SerializedName("nama")
+        private String nama;
+
+        public String getNama() {
+            return nama;
         }
     }
 }
